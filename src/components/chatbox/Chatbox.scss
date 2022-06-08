@@ -1,0 +1,12 @@
+.chat-form .form-group:after {
+    content: unset;
+}
+.chat-form input {
+    background-color: #e6eeff;
+    color: var(--theme-color);
+}
+
+.messages-content {
+    background-image: url("../../../public/assets/images/pattern.png");
+    background-color: rgba($color: #fff, $alpha: 0.2);
+}

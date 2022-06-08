@@ -1,0 +1,49 @@
+// @import "../../node_modules/bootstrap/dist/css/bootstrap.css";
+button {
+    outline: none;
+    border: 0;
+}
+
+button:active,
+button:focus {
+    outline: none;
+}
+
+.navigation .nav-top a {
+    padding-left: 30px;
+    padding-right: 10px;
+}
+
+.profile-pic {
+    width: 130px;
+    height: 130px;
+    border-radius: 999px;
+    overflow: hidden;
+    position: relative;
+    &:hover {
+        .remove-btn {
+            display: flex;
+        }
+    }
+}
+
+.remove-btn {
+    position: absolute;
+    top: calc(50% - 15px);
+    left: calc(50% - 15px);
+    border-radius: 99px;
+    padding: 0.2rem 0.5rem;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    width: 30px;
+    display: none;
+}
+
+.tagify {
+    border: 2px #eee solid !important;
+    --tags-focus-border-color: var(--theme-color) !important;
+    border-radius: 4px;
+}
