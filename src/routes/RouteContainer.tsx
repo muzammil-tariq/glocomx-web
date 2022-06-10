@@ -5,6 +5,7 @@ import { useAppDispatch } from "../redux/hooks/hooks";
 import { initUser } from "../redux/reducers/authReducer";
 import LoginRoute from "./login/LoginRoute";
 import EmailConfirmation from "./EmailConfirmation/EmailConfirmationRoute";
+import ForgotPassword from "./Forgot";
 import ProtectedRoute from "./ProtectedRoute";
 import RegisterRoute from "./register/RegisterRoute";
 import AddNewStream from "./stream/ScheduleStream";
@@ -31,7 +32,10 @@ const RouteContainer = () => {
 
   return (
     <>
-      {pathname.includes("/confirm/email") ? null : <Sidebar />}
+      {pathname.includes("/confirm/email") ||
+      pathname.includes("/reset/password") ? null : (
+        <Sidebar />
+      )}
       <Routes>
         <Route
           path="/stream/:scheduleId/:streamId"
@@ -69,7 +73,9 @@ const RouteContainer = () => {
         />
         <Route path="/login" element={<LoginRoute />} />
         <Route path="/confirm/email/:id" element={<EmailConfirmation />} />
+        <Route path="/reset/password/:id" element={<EmailConfirmation />} />
         <Route path="/register" element={<RegisterRoute />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="*" element={<Navigate to="/stream" />} />
       </Routes>
     </>

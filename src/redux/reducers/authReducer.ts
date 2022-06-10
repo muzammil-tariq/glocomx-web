@@ -19,7 +19,6 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     initUser: (state, action: PayloadAction<any>) => {
-      debugger;
       if (action.payload) {
         state.email = action.payload.data.Email;
         state.phone = action.payload.phone;
@@ -41,7 +40,6 @@ const authSlice = createSlice({
     },
 
     setAuth: (state, action: PayloadAction<any>) => {
-      debugger;
       state.email = action.payload.data.Email;
       state.phone = action.payload.phone;
       state.accessToken = action.payload.data.AccessToken;

@@ -1,10 +1,10 @@
+import Notiflix from "notiflix";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../redux/hooks/hooks";
-import { initUser, setAuth } from "../../redux/reducers/authReducer";
+import { setAuth } from "../../redux/reducers/authReducer";
 import { AuthService } from "../../services/AuthService";
-import Notiflix from "notiflix";
 
 const LoginRoute = () => {
   const {
@@ -25,7 +25,6 @@ const LoginRoute = () => {
     setLoading(true);
     AuthService.login(data)
       .then((response) => {
-        debugger;
         localStorage.setItem("user", JSON.stringify(response.data));
         dispatch(setAuth(response.data));
         setLoading(false);

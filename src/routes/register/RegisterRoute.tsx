@@ -1,11 +1,10 @@
+import { LoadingButton } from "@mui/lab";
+import Notiflix from "notiflix";
 import React, { useState } from "react";
+import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthService } from "../../services/AuthService";
-import Notiflix from "notiflix";
-import { useDropzone } from "react-dropzone";
-import { WrpObjectToFormData } from "../../common/utility";
-
 const RegisterRoute = () => {
   const {
     register,
@@ -14,6 +13,7 @@ const RegisterRoute = () => {
     formState: { errors },
   } = useForm();
   const [loading, setLoading] = useState(false);
+  const [term, setTerm] = useState(false);
   const navigate = useNavigate();
   const [files, setFiles] = useState([]) as any;
   const { getRootProps, getInputProps } = useDropzone({
@@ -30,7 +30,9 @@ const RegisterRoute = () => {
       );
     },
   });
-
+  React.useEffect(() => {
+    console.log(term);
+  }, [term]);
   const removeProfilePic = () => {
     setFiles([]);
   };
@@ -55,8 +57,6 @@ const RegisterRoute = () => {
   ));
   const onSubmit = (data: any) => {
     setLoading(true);
-    debugger;
-
     let dataPayload = {
       firstName: data.firstName,
       lastName: data.lastName,
@@ -165,6 +165,7 @@ const RegisterRoute = () => {
                   type="checkbox"
                   className="form-check-input mt-2"
                   id="exampleCheck1"
+                  onChange={(e) => setTerm(e.target.checked)}
                 />
                 <label
                   className="form-check-label font-xsss text-grey-500"
@@ -175,10 +176,10 @@ const RegisterRoute = () => {
               </div>
               <div className="col-sm-12 p-0 text-left">
                 <div className="form-group mb-1">
-                  <button
+                  <LoadingButton
                     type="submit"
                     className="form-control text-center style2-input text-white fw-600 bg-dark border-0 p-0 "
-                    disabled={loading}
+                    disabled={loading || !term}
                   >
                     {loading && (
                       <span
@@ -189,7 +190,7 @@ const RegisterRoute = () => {
                     )}
 
                     <span className="">Register</span>
-                  </button>
+                  </LoadingButton>
                 </div>
                 <h6 className="text-grey-500 font-xsss fw-500 mt-0 mb-0 lh-32">
                   Already have account{" "}
