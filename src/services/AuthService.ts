@@ -8,9 +8,12 @@ export const AuthService = {
     return AxiosPost("Accounts/users", data);
   },
   forgotPassword: (data: any) => {
-    return AxiosPost("/Authorization/reset/password", data);
+    return AxiosPost("Authorization/reset/password", data);
   },
-  confirmEmail: (id: String) => {
+  recoveryEmail: (payload: any) => {
+    return AxiosPost(`send/recovery/email?email=${payload.email}`);
+  },
+  confirmEmail: (id: any) => {
     return AxiosPost("Authorization/validate", {
       resetToken: id,
     });

@@ -18,23 +18,28 @@ const Forgot = () => {
     watch,
     formState: { errors },
   } = useForm();
-  React.useEffect(() => {
-    if (!search.validationId) navigate("/login");
-  }, [search]);
   const onSubmit = async (data) => {
     try {
-      await AuthService.forgotPassword({
-        email: userReduxState.email,
-        resetToken: search.validationId,
-        password: data.password,
-      });
-      Notiflix.Notify.success("Password changed successfully");
-      navigate("/login");
-
+      debugger;
+      if (search.validationId) {
+        await AuthService.forgotPassword({
+          email: data.email,
+          resetToken: search.validationId,
+          password: data.password,
+        });
+        Notiflix.Notify.success("Password changed successfully");
+        navigate("/login");
+      } else {
+        await AuthService.recoveryEmail({ email: data.email });
+        Notiflix.Notify.success(
+          "Reset password Link successfuly sent to your Email"
+        );
+        navigate("/login");
+      }
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      Notiflix.Notify.failure("something went wrong");
+      Notiflix.Notify.failure(error);
     }
   };
   return (
@@ -51,23 +56,47 @@ const Forgot = () => {
           <div className="col-xl-7 vh-lg-100 align-items-center d-flex bg-white rounded-lg overflow-hidden">
             <div className="card shadow-none border-0 ml-auto mr-auto login-card">
               <div className="card-body rounded-0 text-left">
-                <h2 className="fw-700 display1-size display2-md-size mb-4">
-                  Change <br />
-                  your password
-                </h2>
+                {search.validationId ? (
+                  <h2 className="fw-700 display1-size display2-md-size mb-4">
+                    Change <br />
+                    your password
+                  </h2>
+                ) : (
+                  <h2 className="fw-700 display1-size display2-md-size mb-4">
+                    Recovery Email
+                  </h2>
+                )}
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="form-group icon-input mb-1">
                     <input
                       style={{
-                        borderColor: errors?.password && "red",
+                        borderColor: errors?.email && "red",
                       }}
-                      type="Password"
-                      {...register("password", { required: true })}
+                      type="text"
+                      {...register("email", {
+                        required: true,
+                      })}
                       className="style2-input pl-5 form-control text-grey-900 font-xss ls-3"
-                      placeholder="New Password"
+                      placeholder="Recovery Email"
                     />
                     <i className="font-sm ti-lock text-grey-500 pr-0"></i>
                   </div>
+                  {search.validationId && (
+                    <div className="form-group icon-input mb-1">
+                      <input
+                        style={{
+                          borderColor: errors?.password && "red",
+                        }}
+                        type="password"
+                        {...register("password", {
+                          required: true,
+                        })}
+                        className="style2-input pl-5 form-control text-grey-900 font-xss ls-3"
+                        placeholder="New Password"
+                      />
+                      <i className="font-sm ti-lock text-grey-500 pr-0"></i>
+                    </div>
+                  )}
                   <div className="form-check text-left mb-3">
                     <input
                       onChange={(e) => setTerm(e.target.checked)}
@@ -97,7 +126,9 @@ const Forgot = () => {
                         ></span>
                       )}
 
-                      <span className="">Change Password</span>
+                      <span className="">
+                        {search.validationId ? "Change Password" : "Submit"}
+                      </span>
                     </LoadingButton>
                   </div>
                 </form>

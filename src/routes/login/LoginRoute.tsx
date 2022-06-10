@@ -37,7 +37,9 @@ const LoginRoute = () => {
         setLoading(false);
       });
   };
-
+  const onForgotClick = () => {
+    navigate("/forgot-password");
+  };
   return (
     <div className="row">
       <div
@@ -82,12 +84,13 @@ const LoginRoute = () => {
                 >
                   Remember me
                 </label>
-                <a
-                  href="forgot.html"
+                <div
+                  onClick={onForgotClick}
                   className="fw-600 font-xsss text-grey-700 mt-1 float-right"
+                  style={{ cursor: "pointer" }}
                 >
                   Forgot your Password?
-                </a>
+                </div>
               </div>
               <div className="col-sm-12 p-0 text-left">
                 <div className="form-group mb-1">
