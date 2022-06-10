@@ -4,6 +4,7 @@ import Sidebar from "../components/sidebar/Sidebar";
 import { useAppDispatch } from "../redux/hooks/hooks";
 import { initUser } from "../redux/reducers/authReducer";
 import LoginRoute from "./login/LoginRoute";
+import EmailConfirmation from "./EmailConfirmation/EmailConfirmationRoute";
 import ProtectedRoute from "./ProtectedRoute";
 import RegisterRoute from "./register/RegisterRoute";
 import AddNewStream from "./stream/ScheduleStream";
@@ -12,10 +13,10 @@ import StreamRoute from "./stream/StreamRoute";
 import Loader from "../components/Loader/Loader";
 import ChannelRoute from "./channel/ChannelRoute";
 import ViewChannel from "./channel/ViewChannel";
-
+import { useLocation } from "react-router-dom";
 const RouteContainer = () => {
   const [isMounted, setIsMounted] = useState(false);
-
+  const { pathname } = useLocation();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -30,7 +31,7 @@ const RouteContainer = () => {
 
   return (
     <>
-      <Sidebar />
+      {pathname.includes("/confirm/email") ? null : <Sidebar />}
       <Routes>
         <Route
           path="/stream/:scheduleId/:streamId"
@@ -67,6 +68,7 @@ const RouteContainer = () => {
           }
         />
         <Route path="/login" element={<LoginRoute />} />
+        <Route path="/confirm/email/:id" element={<EmailConfirmation />} />
         <Route path="/register" element={<RegisterRoute />} />
         <Route path="*" element={<Navigate to="/stream" />} />
       </Routes>
