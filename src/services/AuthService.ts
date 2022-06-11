@@ -11,7 +11,7 @@ export const AuthService = {
     return AxiosPost("Authorization/reset/password", data);
   },
   recoveryEmail: (payload: any) => {
-    return AxiosPost(`send/recovery/email?email=${payload.email}`);
+    return AxiosPost(`Authorization/send/recovery/email?email=${payload.email}`);
   },
   confirmEmail: (id: any) => {
     return AxiosPost("Authorization/validate", {
