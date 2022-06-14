@@ -10,8 +10,13 @@ export const AuthService = {
   forgotPassword: (data: any) => {
     return AxiosPost("Authorization/reset/password", data);
   },
+  ImageUpload: (data: any) => {
+    return AxiosPost("Accounts/upload/image", data);
+  },
   recoveryEmail: (payload: any) => {
-    return AxiosPost(`send/recovery/email?email=${payload.email}`);
+    return AxiosPost(
+      `Authorization/send/recovery/email?email=${payload.email}`
+    );
   },
   confirmEmail: (id: any) => {
     return AxiosPost("Authorization/validate", {

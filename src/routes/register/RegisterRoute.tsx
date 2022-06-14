@@ -55,8 +55,14 @@ const RegisterRoute = () => {
       </button>
     </div>
   ));
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     setLoading(true);
+    let formData = new FormData();
+    let profilePic;
+    if (files.length > 0) {
+      formData.append("image", files[0]);
+      profilePic = await AuthService.ImageUpload(formData);
+    }
     let dataPayload = {
       firstName: data.firstName,
       lastName: data.lastName,
@@ -64,11 +70,12 @@ const RegisterRoute = () => {
       password: data.password,
       confirmPassword: data.confirmPassword,
       roles: ["user"],
+      ...(files.length > 0
+        ? {
+            profilePic: profilePic?.data.data.ImageUrl,
+          }
+        : null),
     };
-    // if (files.length > 0) {
-    //   formData.append("profilePic", files[0]);
-    // }
-    // formData.append("role", "user");
 
     if (data.password !== data.confirmPassword) {
       Notiflix.Notify.warning("Password does not match.");
